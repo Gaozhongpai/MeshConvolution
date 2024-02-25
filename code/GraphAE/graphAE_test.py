@@ -105,7 +105,7 @@ def test(param,test_npy_fn, out_ply_folder, skip_frames =0):
         batch = min(pc_num-n, param.batch)
         pcs = pc_lst[n:n+batch]
         height = pcs[:,:,1].mean(1)
-        pcs[:,:,0:3] -= pcs[:,:,0:3].mean(1).reshape((-1,1,3)).repeat(param.point_num, 1) ##centralize each instance
+        # pcs[:,:,0:3] -= pcs[:,:,0:3].mean(1).reshape((-1,1,3)).repeat(param.point_num, 1) ##centralize each instance
 
         pcs_torch = torch.FloatTensor(pcs).cuda()
         if(param.augmented_data==True):
