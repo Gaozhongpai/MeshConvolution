@@ -19,9 +19,14 @@ import os
 from matplotlib import cm
 import logging
 
+is_same_param = False
 data_root_dir = 'dataset/DFAUST-dataset'   ## 'COMA-dataset' or 'DFAUST-dataset' or 'MANO-dataset''
 # Configure the logging
-logging.basicConfig(filename=os.path.join(data_root_dir, 'results/MeshConvolution/pai_dfaust_param.log'), level=logging.DEBUG,
+log_name = os.path.join(data_root_dir, 'results/MeshConvolution/pai_dfaust.log')
+if is_same_param:
+    log_name = log_name.replace(".log", "_param.log")
+# Configure the logging
+logging.basicConfig(filename=log_name, level=logging.DEBUG,
                     format='%(asctime)s:%(levelname)s:%(message)s')
 
 def colorFader(c1,c2,mix=0): #fade (linear interpolate) from color c1 (at mix=0) to c2 (mix=1)
@@ -139,21 +144,28 @@ def test(param,test_npy_fn, out_ply_folder, skip_frames =0):
 
     print ("geo error:", geo_error_avg, "laplace error:", laplace_error_avg)
 
-    
+
+
+
+config_file = "../../train/0422_graphAE_dfaust/pai_conv_res.config"
+if is_same_param:
+    config_file = config_file.replace(".config", "_param.config")
 
 param=Param.Parameters()
-param.read_config("../../train/0422_graphAE_dfaust/10_conv_res.config")
+param.read_config(config_file)
 
 #param.augmented_data=True
 param.batch =32
 
-param.read_weight_path = os.path.joint(data_root_dir, "results/MeshConvolution/pai_dfaust_param/weight_10/model_epoch0196.weight")
+
+param.read_weight_path = os.path.joint(data_root_dir, "results/MeshConvolution/pai_dfaust/weight_10/model_epoch0196.weight")
+param.read_weight_path = param.read_weight_path.replace("pai_dfaust", "pai_dfaust_param")
 print (param.read_weight_path)
 
-test_npy_fn = "../../data/DFAUST/test.npy"
+test_npy_fn = "../../data/DFAUST-Pai/test.npy"
 
-out_test_folder = os.path.joint(data_root_dir, "results/MeshConvolution/pai_dfaust_param/epoch198/")
-
+out_test_folder = os.path.joint(data_root_dir, "results/MeshConvolution/pai_dfaust/epoch198/")
+out_test_folder = out_test_folder.replace("pai_dfaust", "pai_dfaust_param")
 out_ply_folder = out_test_folder+"ply/"
 
 if not os.path.exists(out_ply_folder):

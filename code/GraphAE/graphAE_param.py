@@ -24,7 +24,7 @@ class Parameters():
         if not os.path.exists(self.write_tmp_folder):
             os.makedirs(self.write_tmp_folder)
     
-        logdir = config.get("Record","logdir")
+        logdir = os.path.join(data_root, config.get("Record","logdir"))
         self.logger = tensorboardX.SummaryWriter(logdir)
         
         

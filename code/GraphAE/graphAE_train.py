@@ -14,9 +14,14 @@ from datetime import datetime
 from plyfile import PlyData
 import logging, os
 
-data_root_dir = 'dataset/DFAUST-dataset'   ## 'COMA-dataset' or 'DFAUST-dataset' or 'MANO-dataset''
+is_same_param = False
+    
+data_root_dir = '../../../../dataset/DFAUST-dataset'   ## 'COMA-dataset' or 'DFAUST-dataset' or 'MANO-dataset''
+log_name = os.path.join(data_root_dir, 'results/MeshConvolution/pai_dfaust.log')
+if is_same_param:
+    log_name = log_name.replace(".log", "_param.log")
 # Configure the logging
-logging.basicConfig(filename=os.path.join(data_root_dir, 'results/MeshConvolution/pai_dfaust_param.log'), level=logging.DEBUG,
+logging.basicConfig(filename=log_name, level=logging.DEBUG,
                     format='%(asctime)s:%(levelname)s:%(message)s')
             
 def train_one_iteration(param, model, optimizer,pc_lst, epoch, iteration):
@@ -201,7 +206,10 @@ def train(param):
         
 
 param=Param.Parameters()
-param.read_config(data_root_dir, "../../train/0422_graphAE_dfaust/pai_conv_res_param.config")
+config_file = "../../train/0422_graphAE_dfaust/pai_conv_res.config"
+if is_same_param:
+    config_file = config_file.replace(".config", "_param.config")
+param.read_config(data_root_dir, config_file)
 
 train(param)
 
