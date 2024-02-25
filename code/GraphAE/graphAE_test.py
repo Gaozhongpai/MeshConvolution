@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import os
 from matplotlib import cm
 import logging
+import time
 
 is_same_param = False
 data_root_dir = 'dataset/DFAUST-dataset'   ## 'COMA-dataset' or 'DFAUST-dataset' or 'MANO-dataset''
@@ -98,46 +99,50 @@ def test(param,test_npy_fn, out_ply_folder, skip_frames =0):
     geo_error_sum = 0
     laplace_error_sum=0
     pc_num = len(pc_lst)
-    n = 0
     
-    while (n<(pc_num-1)):
-        
-        batch = min(pc_num-n, param.batch)
-        pcs = pc_lst[n:n+batch]
-        height = pcs[:,:,1].mean(1)
-        # pcs[:,:,0:3] -= pcs[:,:,0:3].mean(1).reshape((-1,1,3)).repeat(param.point_num, 1) ##centralize each instance
+    repeat = 100
+    start_time = time.time()
+    for t in range(repeat):
+        print("t={}".format(t))
+        n = 0
+        while (n<(pc_num-1)):
+            
+            batch = min(pc_num-n, param.batch)
+            pcs = pc_lst[n:n+batch]
+            height = pcs[:,:,1].mean(1)
+            # pcs[:,:,0:3] -= pcs[:,:,0:3].mean(1).reshape((-1,1,3)).repeat(param.point_num, 1) ##centralize each instance
 
-        pcs_torch = torch.FloatTensor(pcs).cuda()
-        if(param.augmented_data==True):
-            pcs_torch = Dataloader.get_augmented_pcs(pcs_torch)
-        if(batch<param.batch):
-            pcs_torch = torch.cat((pcs_torch, torch.zeros(param.batch-batch, param.point_num, 3).cuda()),0)
-        
-        pcs_torch = (pcs_torch - model.mean) /model.std
-        out_pcs_torch = model(pcs_torch)
-        out_pcs_torch = out_pcs_torch * model.std + model.mean
-        pcs_torch = pcs_torch * model.std + model.mean
-        
-        geo_error = model.compute_geometric_mean_euclidean_dist_error(pcs_torch[0:batch], out_pcs_torch[0:batch])
-        geo_error_sum += geo_error*batch
-        laplace_error_sum = laplace_error_sum + model.compute_laplace_Mean_Euclidean_Error(pcs_torch[0:batch], out_pcs_torch[0:batch])*batch
-        print (n, geo_error.item())
-        
+            pcs_torch = torch.FloatTensor(pcs).cuda()
+            if(param.augmented_data==True):
+                pcs_torch = Dataloader.get_augmented_pcs(pcs_torch)
+            if(batch<param.batch):
+                pcs_torch = torch.cat((pcs_torch, torch.zeros(param.batch-batch, param.point_num, 3).cuda()),0)
+            
+            pcs_torch = (pcs_torch - model.mean) /model.std
+            out_pcs_torch = model(pcs_torch)
+            out_pcs_torch = out_pcs_torch * model.std + model.mean
+            pcs_torch = pcs_torch * model.std + model.mean
+            
+            geo_error = model.compute_geometric_mean_euclidean_dist_error(pcs_torch[0:batch], out_pcs_torch[0:batch])
+            geo_error_sum += geo_error*batch
+            laplace_error_sum = laplace_error_sum + model.compute_laplace_Mean_Euclidean_Error(pcs_torch[0:batch], out_pcs_torch[0:batch])*batch
+            print (n, geo_error.item())
+            
 
-        if(n % 128 ==0):
-            print (height[0])
-            pc_gt = np.array(pcs_torch[0].data.tolist()) 
-            pc_gt[:,1] +=height[0]
-            pc_out = np.array(out_pcs_torch[0].data.tolist())
-            pc_out[:,1] +=height[0]
+            # if(n % 128 ==0):
+            #     print (height[0])
+            #     pc_gt = np.array(pcs_torch[0].data.tolist()) 
+            #     pc_gt[:,1] +=height[0]
+            #     pc_out = np.array(out_pcs_torch[0].data.tolist())
+            #     pc_out[:,1] +=height[0]
 
-            diff_pc = np.sqrt(pow(pc_gt-pc_out, 2).sum(1))
-            color = get_colors_from_diff_pc(diff_pc, 0, 0.02)*255
-            Dataloader.save_pc_with_color_into_ply(template_plydata, pc_out, color, out_ply_folder+"%08d"%(n)+"_out.ply")
-            Dataloader.save_pc_into_ply(template_plydata, pc_gt, out_ply_folder+"%08d"%(n)+"_gt.ply")
+            #     diff_pc = np.sqrt(pow(pc_gt-pc_out, 2).sum(1))
+            #     color = get_colors_from_diff_pc(diff_pc, 0, 0.02)*255
+            #     Dataloader.save_pc_with_color_into_ply(template_plydata, pc_out, color, out_ply_folder+"%08d"%(n)+"_out.ply")
+            #     Dataloader.save_pc_into_ply(template_plydata, pc_gt, out_ply_folder+"%08d"%(n)+"_gt.ply")
 
-        n = n+batch
-
+            n = n+batch
+    print("--- %s seconds ---" % (time.time() - start_time))
 
     geo_error_avg=geo_error_sum.item()/pc_num
     laplace_error_avg=  laplace_error_sum.item()/pc_num
@@ -152,19 +157,20 @@ if is_same_param:
     config_file = config_file.replace(".config", "_param.config")
 
 param=Param.Parameters()
-param.read_config(config_file)
+param.read_config(data_root_dir, config_file)
 
 #param.augmented_data=True
 param.batch =32
 
 
-param.read_weight_path = os.path.joint(data_root_dir, "results/MeshConvolution/pai_dfaust/weight_10/model_epoch0196.weight")
-param.read_weight_path = param.read_weight_path.replace("pai_dfaust", "pai_dfaust_param")
+param.read_weight_path = os.path.join(data_root_dir, "results/MeshConvolution/pai_dfaust/weight_10/model_epoch0000.weight")
+if is_same_param:
+    param.read_weight_path = param.read_weight_path.replace("pai_dfaust", "pai_dfaust_param")
 print (param.read_weight_path)
 
 test_npy_fn = "../../data/DFAUST-Pai/test.npy"
 
-out_test_folder = os.path.joint(data_root_dir, "results/MeshConvolution/pai_dfaust/epoch198/")
+out_test_folder = os.path.join(data_root_dir, "results/MeshConvolution/pai_dfaust/epoch198/")
 out_test_folder = out_test_folder.replace("pai_dfaust", "pai_dfaust_param")
 out_ply_folder = out_test_folder+"ply/"
 
