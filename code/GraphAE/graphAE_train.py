@@ -15,7 +15,7 @@ from plyfile import PlyData
 import logging
 
 # Configure the logging
-logging.basicConfig(filename='../../train/0422_graphAE_dfaust/results/pai_dfaust.log', level=logging.DEBUG,
+logging.basicConfig(filename='../../../../dataset/DFAUST-dataset/results/MeshConvolution/pai_dfaust_param.log', level=logging.DEBUG,
                     format='%(asctime)s:%(levelname)s:%(message)s')
             
 def train_one_iteration(param, model, optimizer,pc_lst, epoch, iteration):
@@ -200,7 +200,7 @@ def train(param):
         
 
 param=Param.Parameters()
-param.read_config("../../train/0422_graphAE_dfaust/pai_conv_res.config")
+param.read_config("../../train/0422_graphAE_dfaust/pai_dfaust_conv_res_param.config")
 
 train(param)
 
