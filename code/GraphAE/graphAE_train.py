@@ -12,9 +12,12 @@ import graphAE_param as Param
 import graphAE_dataloader as Dataloader
 from datetime import datetime
 from plyfile import PlyData
+import logging
 
+# Configure the logging
+logging.basicConfig(filename='../../train/0422_graphAE_dfaust/results/pai_dfaust.log', level=logging.DEBUG,
+                    format='%(asctime)s:%(levelname)s:%(message)s')
             
-
 def train_one_iteration(param, model, optimizer,pc_lst, epoch, iteration):
     optimizer.zero_grad()
     #start=datetime.now()
@@ -53,6 +56,7 @@ def train_one_iteration(param, model, optimizer,pc_lst, epoch, iteration):
             print ("loss_laplace:", loss_laplace.item())
         print ("loss:", loss.item())
         print ("lr:")
+        logging.info("###Epoch{} Iteration {}/{} loss:{}".format(epoch, iteration, total_iteration, loss.item()))
         for param_group in optimizer.param_groups:
             print(param_group['lr'])
         
@@ -92,6 +96,7 @@ def evaluate(param, model, pc_lst,epoch,template_plydata, suffix, log_eval=True)
     if(log_eval==True):
         param.logger.add_scalars('Evaluate', {'MSE Geo Error': geo_error_avg}, epoch)
         print ("MSE Geo Error:", geo_error_avg)
+        logging.info("MSE Geo Error:{}".format(geo_error_avg))
      
     return geo_error_avg
 

@@ -1,3 +1,4 @@
 data/
 train/0422_graphAE_dfaust/results/
 code/GraphSampling/
+*.pyc

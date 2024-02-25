@@ -9,6 +9,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 import os
+import logging
 
 class Model(nn.Module):
     def __init__(self, param, test_mode = False): #layer_info_lst= [(point_num, feature_dim)]
@@ -578,6 +579,8 @@ class Model(nn.Module):
         
             
         print ("Total network param num:", total_param)   
+        logging.info("Total network param num:{}".format(total_param))
+        
    
    
         
