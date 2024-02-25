@@ -19,7 +19,7 @@ def train_one_iteration(param, model, optimizer,pc_lst, epoch, iteration):
     optimizer.zero_grad()
     #start=datetime.now()
     in_pc_batch = Dataloader.get_random_pc_batch_from_pc_lst_torch(pc_lst,param.neighbor_id_lstlst, param.neighbor_num_lst, param.batch, param.augmented_data) #batch*3*point_num
-    
+    in_pc_batch = (in_pc_batch - model.mean) /model.std
     #in_pc_batch =  in_pc_batch -pcs_mean_torch
     #start=datetime.now()
     out_pc_batch = model(in_pc_batch)
@@ -74,7 +74,11 @@ def evaluate(param, model, pc_lst,epoch,template_plydata, suffix, log_eval=True)
             pcs_torch = Dataloader.get_augmented_pcs(pcs_torch)
         if(batch<param.batch):
             pcs_torch = torch.cat((pcs_torch, torch.zeros(param.batch-batch, param.point_num, 3).cuda()),0)
+            
+        pcs_torch = (pcs_torch - model.mean) /model.std
         out_pcs_torch = model(pcs_torch)
+        out_pcs_torch = out_pcs_torch * model.std + model.mean
+        pcs_torch = pcs_torch * model.std + model.mean
         geo_error_sum = geo_error_sum + model.compute_geometric_mean_euclidean_dist_error(pcs_torch, out_pcs_torch)*batch
 
         if(n==0):   
@@ -104,7 +108,10 @@ def test(param, model, pc_lst, epoch, log_eval=True):
         if(param.augmented_data==True):
             pcs_torch = Dataloader.get_augmented_pcs(pcs_torch)
         
+        pcs_torch = (pcs_torch - model.mean) / model.std
         out_pcs_torch = model(pcs_torch)
+        out_pcs_torch = out_pcs_torch * model.std + model.mean
+        pcs_torch = pcs_torch * model.std + model.mean
         geo_error_sum = geo_error_sum + model.compute_geometric_mean_euclidean_dist_error(pcs_torch, out_pcs_torch)*batch
         n = n+batch
 
@@ -188,7 +195,7 @@ def train(param):
         
 
 param=Param.Parameters()
-param.read_config("../../train/0422_graphAE_dfaust/30_conv_res.config")
+param.read_config("../../train/0422_graphAE_dfaust/pai_conv_res.config")
 
 train(param)
 

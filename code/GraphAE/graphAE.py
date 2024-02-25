@@ -8,11 +8,15 @@ This is a temporary script file.
 import torch
 import torch.nn as nn
 import numpy as np
-
+import os
 
 class Model(nn.Module):
     def __init__(self, param, test_mode = False): #layer_info_lst= [(point_num, feature_dim)]
         super(Model, self).__init__()
+        
+        self.root_dir = "../../data/DFAUST-Pai"
+        self.mean = torch.load(os.path.join(self.root_dir, "mean.tch")).cuda()
+        self.std = torch.load(os.path.join(self.root_dir, "std.tch")).cuda()
         
         self.point_num = param.point_num
 
@@ -39,6 +43,9 @@ class Model(nn.Module):
         self.batch = param.batch
 
         self.init_layers(self.batch)
+        
+        self.fc_latent_enc = nn.Linear(7*128, 32)
+        self.fc_latent_dec = nn.Linear(32, 7*128)
 
         #self.final_linear = Conv1d(self.channel_lst[-1], 3, kernel_size=1)        
         
@@ -357,13 +364,16 @@ class Model(nn.Module):
         
         out_pc = in_pc.clone()
         
-        
         for i in range(self.layer_num):
+            
             if(i<(self.layer_num-1)):
                 if(self.test_mode==False):
                     out_pc = self.forward_one_conv_layer_batch(out_pc, self.layer_lst[i])
                 else:
                     out_pc = self.forward_one_conv_layer_batch_during_test(out_pc, self.layer_lst[i])
+                if i == 3:
+                    out_pc = self.fc_latent_enc(out_pc.view(out_pc.shape[0], -1))
+                    out_pc = self.fc_latent_dec(out_pc).view(out_pc.shape[0], -1, 128)
             else:
                 if(self.test_mode==False):
                     out_pc =  self.forward_one_conv_layer_batch(out_pc, self.layer_lst[i], is_final_layer=True)

@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/cnpy/cnpy.cpp
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/cnpy/cnpy.cpp
 cnpy.h
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/cnpy/cnpy.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/cnpy/cnpy.h
 complex
 -
 cstdlib
@@ -26,7 +26,7 @@ stdexcept
 regex
 -
 
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/cnpy/cnpy.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/cnpy/cnpy.h
 string
 -
 stdexcept
@@ -54,13 +54,13 @@ stdint.h
 numeric
 -
 
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/main.cpp
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/main.cpp
 iostream
 -
 meshPooler_visualizer_new.h
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/meshPooler_visualizer_new.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/meshPooler_visualizer_new.h
 
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/mdSArray.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/mdSArray.h
 stdio.h
 -
 string.h
@@ -68,23 +68,23 @@ string.h
 stdlib.h
 -
 
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/mdVector.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/mdVector.h
 math.h
 -
 iostream
 -
 mdVector.inl
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/mdVector.inl
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/mdVector.inl
 
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/mdVector.inl
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/mdVector.inl
 
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/meshCNN.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/meshCNN.h
 meshPooler.h
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/meshPooler.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/meshPooler.h
 cnpy/cnpy.h
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/cnpy/cnpy.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/cnpy/cnpy.h
 
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/meshLoader.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/meshLoader.h
 stdlib.h
 -
 stdio.h
@@ -104,25 +104,25 @@ algorithm
 vector
 -
 mdVector.h
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/mdVector.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/mdVector.h
 mdSArray.h
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/mdSArray.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/mdSArray.h
 
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/meshPooler.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/meshPooler.h
 meshLoader.h
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/meshLoader.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/meshLoader.h
 queue
 -
 list
 -
 set
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/set
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/set
 math.h
 -
 
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/meshPooler_visualizer_new.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/meshPooler_visualizer_new.h
 meshCNN.h
-/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/public/code/GraphSampling/meshCNN.h
+/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/meshCNN.h
 opencv2/opencv.hpp
 -
 math.h

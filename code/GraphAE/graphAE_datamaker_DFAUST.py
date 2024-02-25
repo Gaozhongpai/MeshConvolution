@@ -3,13 +3,14 @@ from os.path import join, exists
 import h5py
 import numpy as np
 
+# pip3 install --upgrade pip && pip3 install h5py=='2.9.0'
 def get_pc_seqs_from_DFAUST(fname):
     n=0
     pc_seqs =[]
     with h5py.File(fname,'r') as f:
         for sidseq in f:
             if(sidseq!='faces'):
-                verts = f[sidseq].value.transpose([2, 0, 1])
+                verts = f[sidseq][()].transpose([2, 0, 1])
                 # Write to an obj file
                 pc_seq = []
                 for iv, v in enumerate(verts):
@@ -55,8 +56,8 @@ def split_train_and_eval_and_test_data(pc_seqs, train_fn, eval_fn, test_fn):
     return train_pcs, eval_pcs, test_pcs
 
 
-pc_seqs1 = get_pc_seqs_from_DFAUST("../../../data/DFAUST/registrations_f.hdf5")
-pc_seqs2 = get_pc_seqs_from_DFAUST("../../../data/DFAUST/registrations_m.hdf5")
+pc_seqs1 = get_pc_seqs_from_DFAUST("../../data/DFAUST/registrations_f.hdf5")
+pc_seqs2 = get_pc_seqs_from_DFAUST("../../data/DFAUST/registrations_m.hdf5")
 
 pc_seqs = pc_seqs1 + pc_seqs2
 

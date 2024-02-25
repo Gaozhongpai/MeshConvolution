@@ -103,8 +103,12 @@ def test(param,test_npy_fn, out_ply_folder, skip_frames =0):
             pcs_torch = Dataloader.get_augmented_pcs(pcs_torch)
         if(batch<param.batch):
             pcs_torch = torch.cat((pcs_torch, torch.zeros(param.batch-batch, param.point_num, 3).cuda()),0)
-
+        
+        pcs_torch = (pcs_torch - model.mean) /model.std
         out_pcs_torch = model(pcs_torch)
+        out_pcs_torch = out_pcs_torch * model.std + model.mean
+        pcs_torch = pcs_torch * model.std + model.mean
+        
         geo_error = model.compute_geometric_mean_euclidean_dist_error(pcs_torch[0:batch], out_pcs_torch[0:batch])
         geo_error_sum += geo_error*batch
         laplace_error_sum = laplace_error_sum + model.compute_laplace_Mean_Euclidean_Error(pcs_torch[0:batch], out_pcs_torch[0:batch])*batch
@@ -140,7 +144,7 @@ param.read_config("../../train/0422_graphAE_dfaust/10_conv_res.config")
 #param.augmented_data=True
 param.batch =32
 
-param.read_weight_path = "../../train/0422_graphAE_dfaust/weight_10/model_epoch0198.weight"
+param.read_weight_path = "../../train/0422_graphAE_dfaust/weight_10/model_epoch0196.weight"
 print (param.read_weight_path)
 
 test_npy_fn = "../../data/DFAUST/test.npy"
