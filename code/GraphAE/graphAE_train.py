@@ -12,10 +12,11 @@ import graphAE_param as Param
 import graphAE_dataloader as Dataloader
 from datetime import datetime
 from plyfile import PlyData
-import logging
+import logging, os
 
+data_root_dir = 'dataset/DFAUST-dataset'   ## 'COMA-dataset' or 'DFAUST-dataset' or 'MANO-dataset''
 # Configure the logging
-logging.basicConfig(filename='../../../../dataset/DFAUST-dataset/results/MeshConvolution/pai_dfaust_param.log', level=logging.DEBUG,
+logging.basicConfig(filename=os.path.join(data_root_dir, 'results/MeshConvolution/pai_dfaust_param.log'), level=logging.DEBUG,
                     format='%(asctime)s:%(levelname)s:%(message)s')
             
 def train_one_iteration(param, model, optimizer,pc_lst, epoch, iteration):
@@ -200,7 +201,7 @@ def train(param):
         
 
 param=Param.Parameters()
-param.read_config("../../train/0422_graphAE_dfaust/pai_dfaust_conv_res_param.config")
+param.read_config(data_root, "../../train/0422_graphAE_dfaust/pai_dfaust_conv_res_param.config")
 
 train(param)
 

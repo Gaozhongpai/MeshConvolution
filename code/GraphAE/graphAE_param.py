@@ -11,13 +11,13 @@ class Parameters():
         super(Parameters, self).__init__()
       
         
-    def read_config(self, fn):
+    def read_config(self, data_root, fn):
         config = configparser.ConfigParser()
         config.read(fn)
         
-        self.read_weight_path = config.get("Record","read_weight_path")
-        self.write_weight_folder=config.get("Record","write_weight_folder")
-        self.write_tmp_folder=config.get("Record","write_tmp_folder")
+        self.read_weight_path = os.path.join(data_root, config.get("Record","read_weight_path"))
+        self.write_weight_folder=os.path.join(data_root, config.get("Record","write_weight_folder"))
+        self.write_tmp_folder=os.path.join(data_root, config.get("Record","write_tmp_folder"))
         if not os.path.exists(self.write_weight_folder):
             os.makedirs(self.write_weight_folder)
         if not os.path.exists(self.write_tmp_folder):
