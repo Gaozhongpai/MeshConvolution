@@ -30,7 +30,7 @@ int main() {
     Mesh mesh;
 
     
-    mesh.loadmesh_obj("../../data/DFAUST/template.obj");
+    mesh.loadmesh_obj("../../data/COMA-pai/template.obj");
     //mesh.loadmesh_obj("/mnt/hdd1/yi_hdd1/GraphCNN_Facebook/body/fall/data/D-FAUST/sample.obj");
     //mesh.loadmesh_obj("../../data/body_1m/template.obj");
 
@@ -43,7 +43,7 @@ int main() {
 
     cout<<"#############################################################\n";
     cout<<"## Save pool and unpool connection matrices in npy ##########\n";
-    string folder="../../train/0422_graphAE_dfaust/ConnectionMatrices/";
+    string folder="../../train/0422_graphAE_coma/ConnectionMatrices/";
     meshCNN.save_pool_and_unpool_neighbor_info_to_npz(folder);
 
 

@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/cnpy/cnpy.cpp" "/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/CMakeFiles/GraphSampling.dir/cnpy/cnpy.cpp.o"
-  "/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/main.cpp" "/home/pai/code/SDConvMesh/MeshConvolution/code/GraphSampling/CMakeFiles/GraphSampling.dir/main.cpp.o"
+  "/home/pai/code/SDConvMesh/compare/MeshConvolution/code/GraphSampling/cnpy/cnpy.cpp" "/home/pai/code/SDConvMesh/compare/MeshConvolution/code/GraphSampling/CMakeFiles/GraphSampling.dir/cnpy/cnpy.cpp.o"
+  "/home/pai/code/SDConvMesh/compare/MeshConvolution/code/GraphSampling/main.cpp" "/home/pai/code/SDConvMesh/compare/MeshConvolution/code/GraphSampling/CMakeFiles/GraphSampling.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
