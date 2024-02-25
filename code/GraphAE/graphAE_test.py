@@ -17,8 +17,12 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import os
 from matplotlib import cm
+import logging
 
-
+data_root_dir = 'dataset/DFAUST-dataset'   ## 'COMA-dataset' or 'DFAUST-dataset' or 'MANO-dataset''
+# Configure the logging
+logging.basicConfig(filename=os.path.join(data_root_dir, 'results/MeshConvolution/pai_dfaust_param.log'), level=logging.DEBUG,
+                    format='%(asctime)s:%(levelname)s:%(message)s')
 
 def colorFader(c1,c2,mix=0): #fade (linear interpolate) from color c1 (at mix=0) to c2 (mix=1)
     c1=np.array(mpl.colors.to_rgb(c1))
@@ -136,7 +140,6 @@ def test(param,test_npy_fn, out_ply_folder, skip_frames =0):
     print ("geo error:", geo_error_avg, "laplace error:", laplace_error_avg)
 
     
-    
 
 param=Param.Parameters()
 param.read_config("../../train/0422_graphAE_dfaust/10_conv_res.config")
@@ -144,12 +147,12 @@ param.read_config("../../train/0422_graphAE_dfaust/10_conv_res.config")
 #param.augmented_data=True
 param.batch =32
 
-param.read_weight_path = "../../train/0422_graphAE_dfaust/weight_10/model_epoch0196.weight"
+param.read_weight_path = os.path.joint(data_root_dir, "results/MeshConvolution/pai_dfaust_param/weight_10/model_epoch0196.weight")
 print (param.read_weight_path)
 
 test_npy_fn = "../../data/DFAUST/test.npy"
 
-out_test_folder = "../../train/0422_graphAE_dfaust/test_10/epoch198/"
+out_test_folder = os.path.joint(data_root_dir, "results/MeshConvolution/pai_dfaust_param/epoch198/")
 
 out_ply_folder = out_test_folder+"ply/"
 

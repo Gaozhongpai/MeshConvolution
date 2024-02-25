@@ -201,7 +201,7 @@ def train(param):
         
 
 param=Param.Parameters()
-param.read_config(data_root, "../../train/0422_graphAE_dfaust/pai_dfaust_conv_res_param.config")
+param.read_config(data_root_dir, "../../train/0422_graphAE_dfaust/pai_dfaust_conv_res_param.config")
 
 train(param)
 
