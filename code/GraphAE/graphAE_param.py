@@ -15,7 +15,8 @@ class Parameters():
         config = configparser.ConfigParser()
         config.read(fn)
         
-        self.read_weight_path = os.path.join(data_root, config.get("Record","read_weight_path"))
+        self.read_weight_path = os.path.join(data_root, config.get("Record","read_weight_path")) \
+            if config.get("Record","read_weight_path") else config.get("Record","read_weight_path")
         self.write_weight_folder=os.path.join(data_root, config.get("Record","write_weight_folder"))
         self.write_tmp_folder=os.path.join(data_root, config.get("Record","write_tmp_folder"))
         if not os.path.exists(self.write_weight_folder):

@@ -15,7 +15,9 @@ class Model(nn.Module):
     def __init__(self, param, test_mode = False): #layer_info_lst= [(point_num, feature_dim)]
         super(Model, self).__init__()
         
-        self.root_dir = "../../data/DFAUST-Pai"
+        name = "DFAUST" if "DFAUST" in param.pcs_train else "COMA"
+        
+        self.root_dir = "../../data/{}-Pai".format(name)
         self.mean = torch.load(os.path.join(self.root_dir, "mean.tch")).cuda()
         self.std = torch.load(os.path.join(self.root_dir, "std.tch")).cuda()
         
@@ -45,8 +47,9 @@ class Model(nn.Module):
 
         self.init_layers(self.batch)
         
-        self.fc_latent_enc = nn.Linear(7*128, 32)
-        self.fc_latent_dec = nn.Linear(32, 7*128)
+        dim = 7 if name == "DFAUST" else 4
+        self.fc_latent_enc = nn.Linear(dim*128, 32)
+        self.fc_latent_dec = nn.Linear(32, dim*128)
 
         #self.final_linear = Conv1d(self.channel_lst[-1], 3, kernel_size=1)        
         

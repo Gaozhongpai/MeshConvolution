@@ -166,8 +166,8 @@ def train(param):
     np.random.shuffle(pc_lst_evaluate)
 
 
-    pc_lst_train[:,:,0:3] -= pc_lst_train[:,:,0:3].mean(1).reshape((-1,1,3)).repeat(param.point_num, 1)
-    pc_lst_evaluate[:,:,0:3] -= pc_lst_evaluate[:,:,0:3].mean(1).reshape((-1,1,3)).repeat(param.point_num, 1)
+    # pc_lst_train[:,:,0:3] -= pc_lst_train[:,:,0:3].mean(1).reshape((-1,1,3)).repeat(param.point_num, 1)
+    # pc_lst_evaluate[:,:,0:3] -= pc_lst_evaluate[:,:,0:3].mean(1).reshape((-1,1,3)).repeat(param.point_num, 1)
     #pc_lst_test[:,:,0:3] -= pc_lst_test[:,:,0:3].mean(1).reshape((-1,1,3)).repeat(param.point_num, 1)
 
     template_plydata = PlyData.read(param.template_ply_fn)
@@ -201,7 +201,7 @@ def train(param):
         
 
 param=Param.Parameters()
-param.read_config(data_root_dir, "../../train/0422_graphAE_dfaust/pai_dfaust_conv_res_param.config")
+param.read_config(data_root_dir, "../../train/0422_graphAE_dfaust/pai_conv_res_param.config")
 
 train(param)
 
