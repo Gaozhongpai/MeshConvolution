@@ -20,7 +20,7 @@ from matplotlib import cm
 import logging
 import time
 
-is_same_param = False
+is_same_param = True
 data_root_dir = '/code/dataset/DFAUST-dataset'   ## 'COMA-dataset' or 'DFAUST-dataset' or 'MANO-dataset''
 # Configure the logging
 log_name = os.path.join(data_root_dir, 'results/MeshConvolution/pai_dfaust.log')
@@ -129,17 +129,17 @@ def test(param,test_npy_fn, out_ply_folder, skip_frames =0):
             print (n, geo_error.item())
             
 
-            # if(n % 128 ==0):
-            #     print (height[0])
-            #     pc_gt = np.array(pcs_torch[0].data.tolist()) 
-            #     pc_gt[:,1] +=height[0]
-            #     pc_out = np.array(out_pcs_torch[0].data.tolist())
-            #     pc_out[:,1] +=height[0]
+            if(n % 128 ==0):
+                print (height[0])
+                pc_gt = np.array(pcs_torch[0].data.tolist()) 
+                pc_gt[:,1] +=height[0]
+                pc_out = np.array(out_pcs_torch[0].data.tolist())
+                pc_out[:,1] +=height[0]
 
-            #     diff_pc = np.sqrt(pow(pc_gt-pc_out, 2).sum(1))
-            #     color = get_colors_from_diff_pc(diff_pc, 0, 0.02)*255
-            #     Dataloader.save_pc_with_color_into_ply(template_plydata, pc_out, color, out_ply_folder+"%08d"%(n)+"_out.ply")
-            #     Dataloader.save_pc_into_ply(template_plydata, pc_gt, out_ply_folder+"%08d"%(n)+"_gt.ply")
+                diff_pc = np.sqrt(pow(pc_gt-pc_out, 2).sum(1))
+                color = get_colors_from_diff_pc(diff_pc, 0, 0.02)*255
+                Dataloader.save_pc_with_color_into_ply(template_plydata, pc_out, color, out_ply_folder+"%08d"%(n)+"_out.ply")
+                Dataloader.save_pc_into_ply(template_plydata, pc_gt, out_ply_folder+"%08d"%(n)+"_gt.ply")
 
             n = n+batch
     print("--- %s seconds ---" % (time.time() - start_time))
@@ -163,15 +163,15 @@ param.read_config(data_root_dir, config_file)
 param.batch =32
 
 
-param.read_weight_path = os.path.join(data_root_dir, "results/MeshConvolution/pai/weight_10model_epoch0176.weight")
+param.read_weight_path = os.path.join(data_root_dir, "results/MeshConvolution/pai/weight_10model_epoch0186.weight")
 if is_same_param:
-    param.read_weight_path = param.read_weight_path.replace("pai_dfaust", "pai_dfaust_param")
+    param.read_weight_path = param.read_weight_path.replace("pai", "pai_param")
 print (param.read_weight_path)
 
 test_npy_fn = "../../data/DFAUST-Pai/test.npy"
 
-out_test_folder = os.path.join(data_root_dir, "results/MeshConvolution/pai_dfaust/epoch198/")
-out_test_folder = out_test_folder.replace("pai_dfaust", "pai_dfaust_param")
+out_test_folder = os.path.join(data_root_dir, "results/MeshConvolution/pai/epoch186/")
+out_test_folder = out_test_folder.replace("pai", "pai_param")
 out_ply_folder = out_test_folder+"ply/"
 
 if not os.path.exists(out_ply_folder):
