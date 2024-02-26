@@ -21,7 +21,7 @@ import logging
 import time
 
 is_same_param = False
-data_root_dir = 'dataset/DFAUST-dataset'   ## 'COMA-dataset' or 'DFAUST-dataset' or 'MANO-dataset''
+data_root_dir = '/code/dataset/DFAUST-dataset'   ## 'COMA-dataset' or 'DFAUST-dataset' or 'MANO-dataset''
 # Configure the logging
 log_name = os.path.join(data_root_dir, 'results/MeshConvolution/pai_dfaust.log')
 if is_same_param:
@@ -100,7 +100,7 @@ def test(param,test_npy_fn, out_ply_folder, skip_frames =0):
     laplace_error_sum=0
     pc_num = len(pc_lst)
     
-    repeat = 100
+    repeat = 1
     start_time = time.time()
     for t in range(repeat):
         print("t={}".format(t))
@@ -163,7 +163,7 @@ param.read_config(data_root_dir, config_file)
 param.batch =32
 
 
-param.read_weight_path = os.path.join(data_root_dir, "results/MeshConvolution/pai_dfaust/weight_10/model_epoch0000.weight")
+param.read_weight_path = os.path.join(data_root_dir, "results/MeshConvolution/pai/weight_10model_epoch0176.weight")
 if is_same_param:
     param.read_weight_path = param.read_weight_path.replace("pai_dfaust", "pai_dfaust_param")
 print (param.read_weight_path)
